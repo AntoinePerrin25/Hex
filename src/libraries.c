@@ -15,7 +15,6 @@
 #include "include/couleurs.h"
 #include "include/libraries.h"
 
-
 /// @brief Affiche le menu et attend une de ses options
 /// @return Énumération du menu
 menu_e menu(void)
@@ -245,8 +244,9 @@ tour_partie_e tournormal(partie_t *save)
     for (;;)
     {
         char input[20] = ""; // chaine de caracteres pour stocker l'entree du joueur
-
-        printf("%c doit jouer", save->joueur);
+        char color[6];
+        strcpy(color, save->joueur == 'O' ? enROUGE : enBLEU);
+        printf("%s%c" enFin " doit jouer", color, save->joueur);
         printf(", entrez les coordonnees, ou sauvegarder ou quitter (ex : a3 ou 'S' ou 'X') : ");
         fflush(stdout); // force une sortie standard, il n'y a pas de '\n' au dernier printf
 
