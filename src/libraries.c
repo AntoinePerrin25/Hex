@@ -65,13 +65,24 @@ menu_e menu(void)
 /// @return Énumération du mode
 mode_e mode(char *mode)
 {
+    char c;
     do
     {
         printf("\nMode de jeu pour votre partie ? 'normal'/'special'/'aleatoire' : ");
-        fflush(stdout);
-        fflush(stdin);
-        char buffer[10];
-        scanf (" %s",   buffer);
+        char buffer[30] = "";
+
+        fgets(buffer, sizeof(buffer), stdin);
+
+
+        if (strchr(buffer, '\n') == NULL)
+        {
+            // Si le buffer n'a pas de '\n', on consomme les caractères restants
+            while ((c = getchar()) != '\n' && c != EOF)
+            {
+                // Consommer les caractères restants
+            }
+        }
+        buffer[strcspn(buffer, "\n")] = 0;
 
         if (0 == strcmp(buffer, "normal"))
         {
@@ -99,14 +110,26 @@ int taillePlateau(void)
     do
     {
         char buffernombre[10]="";
-
+        int c;
+        
         printf("Veuillez donner la dimension du plateau (9 a 14) : ");
-        fflush(stdout);
-        fflush(stdin);
-        fgets(buffernombre, sizeof(buffernombre), stdin);
+        if (fgets(buffernombre, sizeof(buffernombre), stdin) != NULL)
+        {
+            if (strchr(buffernombre, '\n') == NULL)
+            {
+                while ((c = getchar()) != '\n' && c != EOF)
+                {
+                }
+            }
+        }
+        else
+        {
+            clearerr(stdin);
+            taille = 0; 
+        }
         
         taille = atoi(buffernombre);
-    } while(taille < 9 || taille > 14);  // taille autorisée entre 9 et 14, sinon la taille est redemandée
+    } while(taille < 9 || taille > 14);
     return taille;
 }
 
